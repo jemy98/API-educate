@@ -79,7 +79,7 @@ const updateUser = asyncHandler(async (req, res) => {
     user.username = username
     user.roles = roles
     user.active = active
-    user.email = email
+    user.email=email
 
     if (password) {
         // Hash password 
