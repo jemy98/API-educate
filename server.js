@@ -11,10 +11,13 @@ console.log(process.env.NODE_ENV)
 
 connectDB()
 
+app.use(bodyparser.json())
+
 app.use('/',express.static(path.join(__dirname,'/public')))
 
 app.use('/',require('./routes/root'))
-app.use('/users', bodyparser.json(),require('./routes/userRoutes'))
+app.use('/users',require('./routes/userRoutes'))
+app.use('/',require('./routes/authRoutes'))
 
 
 mongoose.connection.once('open', () => {
