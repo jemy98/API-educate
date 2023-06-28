@@ -21,20 +21,14 @@ const getAllModul = asyncHandler(async (req, res) => {
 // @route POST /moduls
 // @access Private
 const createNewModul = asyncHandler(async (req, res) => {
-    const {instructorid, modulname, level, description, image } = req.body
+    const {courseid, modulname, score, description, image, video } = req.body
 
     // Confirm data
-    if (!instructorid) {
+    if (!courseid) {
         return res.status(400).json({ message: modulname })
     }
 
-    const duplicate = await Modul.findOne({ modulname }).lean().exec()
-
-    if (duplicate) {
-        return res.status(409).json({ message: 'Duplicate modulname' })
-    }
-
-    const modulObject = {instructorid, modulname, level, description, image }
+    const modulObject = {courseid, modulname, score, description, image, video }
 
     // Create and store new modul 
     const modul = await Modul.create(modulObject)
@@ -50,7 +44,7 @@ const createNewModul = asyncHandler(async (req, res) => {
 // @route PATCH /moduls
 // @access Private
 const updateModul = asyncHandler(async (req, res) => {
-    const { id, modulname, level, description, image } = req.body
+    const { id, modulname, score, description, image, video } = req.body
 
     // Confirm data 
     if (!id ) {
@@ -73,9 +67,10 @@ const updateModul = asyncHandler(async (req, res) => {
     }
 
     modul.modulname = modulname
-    modul.level = level
+    modul.score = score
     modul.description = description
     modul.image= image
+    modul.video=video
 
     const updatedmodul = await modul.save()
 
