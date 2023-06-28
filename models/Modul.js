@@ -1,17 +1,17 @@
 const mongoose = require('mongoose')
 
-const courseSchema = new mongoose.Schema({
+const modulSchema = new mongoose.Schema({
     instructorid: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'User'
+        ref: 'Course'
     },
     coursename: {
         type: String,
         required: true
     },
-    level: {
-        type: String,
+    score: {
+        type: number,
         required: true
     },
     description: {
@@ -20,12 +20,10 @@ const courseSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        required: true
     },
-    active: {
-        type: Boolean,
-        default: true
-    }
+    video: {
+        type: String,
+    },
 })
 
-module.exports = mongoose.model('Course', courseSchema)
+module.exports = mongoose.model('Modul', modulSchema)
