@@ -64,7 +64,7 @@ const login = asyncHandler(async (req, res) => {
     const { username, email, password, roles } = req.body
 
     // Confirm data
-    if (!username || !password ) {
+    if (!email || !password ) {
         return res.status(400).json({ message: username })
     }
 
@@ -82,10 +82,9 @@ const login = asyncHandler(async (req, res) => {
         // }
     let tokenData;
         tokenData = { _id: user._id, email: user.email };
-
-        const token = await UserServices.generateAccessToken(tokenData,"secret","1h")
+        const token = await UserServices.generateAccessToken(tokenData,"secret","1m")
     if (token) { //created 
-        res.status(201).json({ status: true, success: "sendData", token: token})
+        res.status(201).json({ status: true, success: "sendData", token: token ,_id: user._id,roles: user.roles})
     } else {
         res.status(400).json({ message: 'Invalid user data received' })
     }
