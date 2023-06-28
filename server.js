@@ -18,7 +18,7 @@ app.use('/',express.static(path.join(__dirname,'/public')))
 app.use('/',require('./routes/root'))
 app.use('/users',require('./routes/userRoutes'))
 app.use('/',require('./routes/authRoutes'))
-app.use('/users',require('./routes/userRoutes'))
+app.use('/courses',require('./routes/courseRoutes'))
 
 
 mongoose.connection.once('open', () => {

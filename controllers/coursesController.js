@@ -53,7 +53,7 @@ const updateCourse = asyncHandler(async (req, res) => {
     const { id, coursename, level, description, image } = req.body
 
     // Confirm data 
-    if (!id || !coursename ) {
+    if (!id ) {
         return res.status(400).json({ message: 'All fields are required' })
     }
 
