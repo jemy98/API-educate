@@ -58,14 +58,14 @@ const updateCourse = asyncHandler(async (req, res) => {
     }
 
     // Does the course exist to update?
-    const course = await course.findById(id).exec()
+    const course = await Course.findById(id).exec()
 
-    if (!course) {
+    if (!id) {
         return res.status(400).json({ message: 'course not found' })
     }
 
     // Check for duplicate 
-    const duplicate = await course.findOne({ coursename }).lean().exec()
+    const duplicate = await Course.findOne({ coursename }).lean().exec()
 
     // Allow updates to the original course 
     if (duplicate && duplicate?._id.toString() !== id) {
@@ -94,7 +94,7 @@ const deleteCourse = asyncHandler(async (req, res) => {
     }
 
     // Does the course exist to delete?
-    const course = await course.findById(id).exec()
+    const course = await Course.findById(id).exec()
 
     if (!course) {
         return res.status(400).json({ message: 'course not found' })
