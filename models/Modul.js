@@ -6,12 +6,12 @@ const modulSchema = new mongoose.Schema({
         required: true,
         ref: 'Course'
     },
-    coursename: {
+    modulname: {
         type: String,
         required: true
     },
     score: {
-        type: number,
+        type: Number,
         required: true
     },
     description: {
