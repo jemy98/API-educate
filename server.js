@@ -19,6 +19,7 @@ app.use('/',require('./routes/root'))
 app.use('/users',require('./routes/userRoutes'))
 app.use('/',require('./routes/authRoutes'))
 app.use('/courses',require('./routes/courseRoutes'))
+app.use('/study',require('./routes/studyRoutes'))
 
 
 mongoose.connection.once('open', () => {
