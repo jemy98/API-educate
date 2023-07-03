@@ -1,17 +1,17 @@
 const mongoose = require('mongoose')
 
 const modulSchema = new mongoose.Schema({
-    instructorid: {
+    courseid: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Course'
     },
-    coursename: {
+    modulname: {
         type: String,
         required: true
     },
     score: {
-        type: number,
+        type: Number,
         required: true
     },
     description: {
@@ -20,9 +20,11 @@ const modulSchema = new mongoose.Schema({
     },
     image: {
         type: String,
+        default: ""
     },
     video: {
         type: String,
+        default: ""
     },
 })
 
