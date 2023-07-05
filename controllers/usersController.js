@@ -7,10 +7,23 @@ const bcrypt = require('bcrypt')
 // @access Private
 const getAllUsers = asyncHandler(async (req, res) => {
     // Get all users from MongoDB
-    const users = await User.find().select('-password').lean()
+    const users = await User.find().select('-password').exec()
 
     // If no users 
     if (!users?.length) {
+        return res.status(400).json({ message: 'No users found' })
+    }
+
+    res.json(users)
+})
+
+const getUserbyId = asyncHandler(async (req, res) => {
+    // Get all users from MongoDB
+    const { id } = req.body
+    const users = await User.findById(id).select('-password').lean()
+
+    // If no users 
+    if (!id) {
         return res.status(400).json({ message: 'No users found' })
     }
 
@@ -118,6 +131,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 
 module.exports = {
     getAllUsers,
+    getUserbyId,
     createNewUser,
     updateUser,
     deleteUser

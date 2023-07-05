@@ -8,4 +8,7 @@ router.route('/')
     .patch(coursesController.updateCourse)
     .delete(coursesController.deleteCourse)
 
+router.route('/id')
+    .get(coursesController.getCoursebyId)
+
 module.exports = router
