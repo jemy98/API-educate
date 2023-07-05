@@ -61,11 +61,11 @@ const register = asyncHandler(async (req, res) => {
 )
 
 const login = asyncHandler(async (req, res) => {
-    const { username, email, password, roles } = req.body
+    const { email, password} = req.body
 
     // Confirm data
     if (!email || !password ) {
-        return res.status(400).json({ message: username })
+        return res.status(400).json({ message : "Invalid Input" })
     }
 
     let user = await UserServices.checkUser(email);

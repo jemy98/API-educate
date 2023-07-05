@@ -39,7 +39,7 @@ const updateStudy = asyncHandler(async (req, res) => {
     }
 
     // Does the user exist to update?
-    const study = await Study.findOne({ $and:[{ studentid: studentid, courseid: courseid }] }).exec()
+    const study = await Study.findOne({ $and:[{ studentid: studentid, courseid: courseid }] }).lean()
 
     if (!study) {
         return res.status(400).json({ message: 'Study not found' })
@@ -61,7 +61,7 @@ const updateScore = asyncHandler(async (req, res) => {
     }
 
     // Does the user exist to update?
-    const study = await Study.findOne({ $and:[{ studentid: studentid, courseid: courseid }] }).exec()
+    const study = await Study.findOne({ $and:[{ studentid: studentid, courseid: courseid }] }).lean()
 
     if (!study) {
         return res.status(400).json({ message: 'Study not found' })
@@ -83,7 +83,7 @@ const deleteStudy = asyncHandler(async (req, res) => {
     }
 
     // Does the study exist to delete?
-    const study = await Study.findById(id).exec()
+    const study = await Study.findById(id).lean()
 
     if (!study) {
         return res.status(400).json({ message: 'Study not found' })
