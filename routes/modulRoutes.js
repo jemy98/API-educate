@@ -8,4 +8,7 @@ router.route('/')
     .patch(modulsController.updateModul)
     .delete(modulsController.deleteModul)
 
+router.route('/id')
+    .get(modulsController.getModulbyId)
+
 module.exports = router

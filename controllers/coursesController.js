@@ -17,6 +17,18 @@ const getAllCourse = asyncHandler(async (req, res) => {
     res.json(courses)
 })
 
+const getCoursebyId = asyncHandler(async (req, res) => {
+    const { id } = req.body
+    const courses = await Course.findById(id).lean()
+
+    // If no moduls 
+    if (!id) {
+        return res.status(400).json({ message: 'course not found' })
+    }
+
+    res.json(courses)
+})
+
 // @desc Create new course
 // @route POST /courses
 // @access Private
@@ -109,6 +121,7 @@ const deleteCourse = asyncHandler(async (req, res) => {
 
 module.exports = {
     getAllCourse,
+    getCoursebyId,
     createNewCourse,
     updateCourse,
     deleteCourse

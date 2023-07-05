@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt')
 // @access Private
 const getAllModul = asyncHandler(async (req, res) => {
     // Get all moduls from MongoDB
-    const moduls = await Modul.find().select('-password').lean()
+    const moduls = await Modul.find().lean()
 
     // If no moduls 
     if (!moduls?.length) {
@@ -17,7 +17,18 @@ const getAllModul = asyncHandler(async (req, res) => {
     res.json(moduls)
 })
 
-// @desc Create new modul
+const getModulbyId = asyncHandler(async (req, res) => {
+    const { id } = req.body
+    const moduls = await Modul.findById(id).lean()
+
+    // If no moduls 
+    if (!id) {
+        return res.status(400).json({ message: 'modul not found' })
+    }
+
+    res.json(moduls)
+})
+
 // @route POST /moduls
 // @access Private
 const createNewModul = asyncHandler(async (req, res) => {
@@ -104,6 +115,7 @@ const deleteModul = asyncHandler(async (req, res) => {
 
 module.exports = {
     getAllModul,
+    getModulbyId,
     createNewModul,
     updateModul,
     deleteModul
