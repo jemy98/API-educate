@@ -1,6 +1,6 @@
 const Quiz = require('../models/Quiz')
 const asyncHandler = require('express-async-handler')
-const bcrypt = require('bcrypt')
+const  ObjectID = require('mongodb').ObjectId;
 
 // @desc Get all moduls
 // @route GET /moduls
@@ -56,23 +56,23 @@ const addQuestion = asyncHandler(async (req, res) => {
 
     // Confirm data
     if (!quizid) {
-        return res.status(400).json({ message: quizname })
+        return res.status(400).json({ message: "Invalid Input" })
     }
 
     const questionObject = {questionname, answeroptions, score }
     // Create and store new modul 
     const quiz = await Quiz.findOneAndUpdate(
-           { _id: new  
-            ObjectID(quizid) }, 
-           { $push: { 
-                     question: {
-                       questionObject
+           { "_id": new ObjectID(quizid)}, 
+           { "$push": { 
+                     "question": {
+                       "questionname": questionname,
+                        "answersOptions": answeroptions,
+                       "score": score
                        }  
                    } 
            })
-
     if (quiz) { //created 
-        res.status(201).json({ message: `New qustion ${quizname} created` })
+        res.status(201).json({ message: `New qustion ${questionname} created` })
     } else {
         res.status(400).json({ message: 'Invalid modul data received' })
     }
