@@ -11,4 +11,7 @@ router.route('/')
 router.route('/id')
     .get(coursesController.getCoursebyId)
 
+router.route('/instructor')
+    .get(coursesController.getCoursebyInstructor)
+
 module.exports = router

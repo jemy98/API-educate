@@ -1,10 +1,33 @@
 const Study = require('../models/Study')
 const asyncHandler = require('express-async-handler')
-const bcrypt = require('bcrypt')
 
 // @desc Get all users
 // @route GET /users
 // @access Private
+const getStudybyCourse = asyncHandler(async (req, res) => {
+    const { courseid } = req.body
+    const stud = await Study.find({courseid:courseid}).lean()
+
+    // If no moduls 
+    if (!stud?.length) {
+        return res.status(400).json({ message: 'No moduls found' })
+    }
+
+    res.json(stud)
+})
+
+const getStudybyStudent = asyncHandler(async (req, res) => {
+    const { studentid } = req.body
+    const stud = await Study.find({studentid:studentid}).lean()
+
+    // If no moduls 
+    if (!stud?.length) {
+        return res.status(400).json({ message: 'No moduls found' })
+    }
+
+    res.json(stud)
+})
+
 const createStudy = asyncHandler(async (req, res) => {
     const { studentid, courseid} = req.body
 
@@ -53,7 +76,7 @@ const updateStudy = asyncHandler(async (req, res) => {
 })
 
 const updateScore = asyncHandler(async (req, res) => {
-    const { studentid, courseid, score } = req.body
+    const { id, score } = req.body
 
     // Confirm data 
     if (!studentid || !courseid ) {
@@ -97,6 +120,8 @@ const deleteStudy = asyncHandler(async (req, res) => {
 })
 
 module.exports = {
+    getStudybyCourse,
+    getStudybyStudent,
     createStudy,
     updateStudy,
     deleteStudy,

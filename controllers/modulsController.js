@@ -1,6 +1,5 @@
 const Modul = require('../models/Modul')
 const asyncHandler = require('express-async-handler')
-const bcrypt = require('bcrypt')
 
 // @desc Get all moduls
 // @route GET /moduls
@@ -8,6 +7,18 @@ const bcrypt = require('bcrypt')
 const getAllModul = asyncHandler(async (req, res) => {
     // Get all moduls from MongoDB
     const moduls = await Modul.find().lean()
+
+    // If no moduls 
+    if (!moduls?.length) {
+        return res.status(400).json({ message: 'No moduls found' })
+    }
+
+    res.json(moduls)
+})
+
+const getModulbyCourse = asyncHandler(async (req, res) => {
+    const { cid } = req.body
+    const moduls = await Modul.find({courseid:cid}).lean()
 
     // If no moduls 
     if (!moduls?.length) {
@@ -115,6 +126,7 @@ const deleteModul = asyncHandler(async (req, res) => {
 
 module.exports = {
     getAllModul,
+    getModulbyCourse,
     getModulbyId,
     createNewModul,
     updateModul,

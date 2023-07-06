@@ -19,6 +19,9 @@ const studySchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    progress: {
+        type:Number
+    }
 })
 
 module.exports = mongoose.model('Study', studySchema)

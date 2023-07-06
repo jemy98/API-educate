@@ -1,13 +1,25 @@
 const Course = require('../models/Course')
 const asyncHandler = require('express-async-handler')
-const bcrypt = require('bcrypt')
 
 // @desc Get all courses
 // @route GET /courses
 // @access Private
 const getAllCourse = asyncHandler(async (req, res) => {
     // Get all courses from MongoDB
-    const courses = await Course.find().select('-password').lean()
+    const courses = await Course.find().lean()
+
+    // If no courses 
+    if (!courses?.length) {
+        return res.status(400).json({ message: 'No courses found' })
+    }
+
+    res.json(courses)
+})
+
+const getCoursebyInstructor = asyncHandler(async (req, res) => {
+    // Get all courses from MongoDB
+    const {instid}= req.body
+    const courses = await Course.find({instructorid:instid}).lean()
 
     // If no courses 
     if (!courses?.length) {
@@ -121,6 +133,7 @@ const deleteCourse = asyncHandler(async (req, res) => {
 
 module.exports = {
     getAllCourse,
+    getCoursebyInstructor,
     getCoursebyId,
     createNewCourse,
     updateCourse,
