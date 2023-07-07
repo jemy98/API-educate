@@ -17,6 +17,20 @@ const getAllUsers = asyncHandler(async (req, res) => {
     res.json(users)
 })
 
+const getAllScore = asyncHandler(async (req, res) => {
+    // Get all users from MongoDB
+    const users = await User.find({roles:"Student"}).sort({score:'descending'}).limit(20).exec()
+
+    // If no users 
+    if (!users?.length) {
+        return res.status(400).json({ message: 'No users found' })
+    }
+
+    res.json(users)
+})
+
+
+
 const getUserbyId = asyncHandler(async (req, res) => {
     // Get all users from MongoDB
     const { id } = req.body
@@ -132,6 +146,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 module.exports = {
     getAllUsers,
     getUserbyId,
+    getAllScore,
     createNewUser,
     updateUser,
     deleteUser

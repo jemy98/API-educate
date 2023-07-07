@@ -11,4 +11,7 @@ router.route('/')
 router.route('/id')
     .get(usersController.getUserbyId)
 
+router.route('/score')
+    .get(usersController.getAllScore)
+
 module.exports = router

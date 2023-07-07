@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
     active: {
         type: Boolean,
         default: true
+    },
+    score: {
+        type:Number,
+        default:0
     }
 },{timestamps: true});
 
