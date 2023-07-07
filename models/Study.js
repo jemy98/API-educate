@@ -1,3 +1,4 @@
+const { Decimal128 } = require('mongodb')
 const mongoose = require('mongoose')
 
 const studySchema = new mongoose.Schema({
@@ -20,7 +21,8 @@ const studySchema = new mongoose.Schema({
         default: false
     },
     progress: {
-        type:Number
+        type: Number,
+        default:0
     }
 })
 

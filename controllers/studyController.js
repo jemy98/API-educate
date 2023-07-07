@@ -76,25 +76,26 @@ const updateStudy = asyncHandler(async (req, res) => {
 })
 
 const updateScore = asyncHandler(async (req, res) => {
-    const { id, score } = req.body
+    const { id, courseid } = req.body
 
     // Confirm data 
-    if (!studentid || !courseid ) {
+    if (!id || !courseid ) {
         return res.status(400).json({ message: "Invalid Input" })
     }
 
     // Does the user exist to update?
-    const study = await Study.findOne({ $and:[{ studentid: studentid, courseid: courseid }] }).lean()
+    const study = await Study.findById(id).exec()
 
-    if (!study) {
+    if (!id) {
         return res.status(400).json({ message: 'Study not found' })
     }
 
-    study.score = score
+    study.score = study.score + 10
+    study.progress= study.progress + 1
 
     const updatedStudy = await study.save()
 
-    res.json({ message: `Score updated` })
+    res.json({ message: `${updatedStudy.modulname} Score updated` })
 })
 
 const deleteStudy = asyncHandler(async (req, res) => {

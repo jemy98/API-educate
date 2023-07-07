@@ -14,4 +14,7 @@ router.route('/id')
 router.route('/course')
     .get(modulsController.getModulbyCourse)
 
+router.route('/total')
+    .get(modulsController.getTotalModul)
+
 module.exports = router

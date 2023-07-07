@@ -10,10 +10,6 @@ const modulSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    score: {
-        type: Number,
-        required: true
-    },
     description: {
         type: String,
         required: true

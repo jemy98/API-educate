@@ -40,6 +40,12 @@ const getModulbyId = asyncHandler(async (req, res) => {
     res.json(moduls)
 })
 
+const getTotalModul = asyncHandler(async (req, res) => {
+    const countmodul = await Modul.countDocuments({courseid:courseid})
+
+    res.json(countmodul)
+})
+
 // @route POST /moduls
 // @access Private
 const createNewModul = asyncHandler(async (req, res) => {
@@ -127,6 +133,7 @@ const deleteModul = asyncHandler(async (req, res) => {
 module.exports = {
     getAllModul,
     getModulbyCourse,
+    getTotalModul,
     getModulbyId,
     createNewModul,
     updateModul,
