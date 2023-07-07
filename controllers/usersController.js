@@ -34,11 +34,11 @@ const getMyScore = asyncHandler(async (req, res) => {
     const all = await User.find({roles:"Student"}).sort({score:'descending'}).limit(20).exec()
     const { id } = req.body
     const users = await User.findById(id).select('-password').lean()
-    let dapat = 0
+    let rank = 0
     let hit = 1
     for await (const doc of all){
         if (doc._id == id) {
-            dapat = hit
+            rank = hit
         }
         hit++
     }
@@ -47,7 +47,7 @@ const getMyScore = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: 'No users found' })
     }
 
-    res.json({ _id: users._id, username: users.username, score: users.score, rank: dapat})
+    res.json({ _id: users._id, username: users.username, score: users.score, rank: rank})
 })
 
 
