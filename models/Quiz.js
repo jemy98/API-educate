@@ -10,10 +10,7 @@ const questionSchema = new mongoose.Schema({
       answerText: { type: String },
       isCorrect: { type: Boolean },
     }
-  ],
-  score: {
-    type:Number,
-  }
+  ]
 });
 
 const quizSchema = new mongoose.Schema({
@@ -25,6 +22,9 @@ const quizSchema = new mongoose.Schema({
   quizname: {
     type: String,
     required: true,
+  },
+  score: {
+    type:Number,
   },
   question:[questionSchema]
 });

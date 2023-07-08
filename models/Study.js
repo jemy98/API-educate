@@ -1,4 +1,3 @@
-const { Decimal128 } = require('mongodb')
 const mongoose = require('mongoose')
 
 const studySchema = new mongoose.Schema({
@@ -12,9 +11,10 @@ const studySchema = new mongoose.Schema({
         required: true,
         ref: 'Course'
     },
-    score: {
-        type: Number,
-        default: 0
+    scoreid: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Score'
     },
     status: {
         type: Boolean,

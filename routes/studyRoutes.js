@@ -14,4 +14,7 @@ router.route('/score')
 router.route('/course')
     .get(studyController.getStudybyCourse)
 
+router.route('/id')
+    .get(studyController.getStudybyId)
+
 module.exports = router
