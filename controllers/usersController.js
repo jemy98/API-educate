@@ -19,16 +19,36 @@ const getAllUsers = asyncHandler(async (req, res) => {
 
 const getAllScore = asyncHandler(async (req, res) => {
     // Get all users from MongoDB
-    const users = await User.find({roles:"Student"}).sort({score:'descending'}).limit(20).exec()
-
+    const all = await User.find({roles:"Student"}).sort({score:'descending'}).limit(20).exec()
+    
     // If no users 
-    if (!users?.length) {
+    if (!all?.length) {
         return res.status(400).json({ message: 'No users found' })
     }
 
-    res.json(users)
+    res.json(all)
 })
 
+const getMyScore = asyncHandler(async (req, res) => {
+    // Get all users from MongoDB
+    const all = await User.find({roles:"Student"}).sort({score:'descending'}).exec()
+    const { id } = req.body
+    const users = await User.findById(id).select('-password').lean()
+    let rank = 0
+    let hit = 1
+    for await (const doc of all){
+        if (doc._id == id) {
+            rank = hit
+        }
+        hit++
+    }
+    // If no users 
+    if (!users) {
+        return res.status(400).json({ message: 'No users found' })
+    }
+
+    res.json({ _id: users._id, username: users.username, score: users.score, rank: rank})
+})
 
 
 const getUserbyId = asyncHandler(async (req, res) => {
@@ -147,6 +167,7 @@ module.exports = {
     getAllUsers,
     getUserbyId,
     getAllScore,
+    getMyScore,
     createNewUser,
     updateUser,
     deleteUser
