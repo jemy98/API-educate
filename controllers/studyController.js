@@ -41,6 +41,13 @@ const getStudybyId = asyncHandler(async (req, res) => {
     res.json(stud)
 })
 
+const getTotalStudentbyCourse = asyncHandler(async (req, res) => {
+    const {courseid}= req.body
+    const countmodul = await Study.countDocuments({courseid:courseid})
+
+    res.json(countmodul)
+})
+
 const createStudy = asyncHandler(async (req, res) => {
     const { studentid, courseid} = req.body
 
@@ -114,29 +121,6 @@ const updateScore = asyncHandler(async (req, res) => {
     res.json({ message: `${updatedStudy.modulname} Score updated` })
 })
 
-const updateScoreQuiz = asyncHandler(async (req, res) => {
-    const { id, score } = req.body
-
-    // Confirm data 
-    if (!id || !courseid ) {
-        return res.status(400).json({ message: "Invalid Input" })
-    }
-
-    // Does the user exist to update?
-    const study = await Study.findById(id).exec()
-
-    if (!id) {
-        return res.status(400).json({ message: 'Study not found' })
-    }
-
-    study.score = study.score + 10
-    study.progress= study.progress + 1
-
-    const updatedStudy = await study.save()
-
-    res.json({ message: `${updatedStudy.modulname} Score updated` })
-})
-
 const deleteStudy = asyncHandler(async (req, res) => {
     const { id } = req.body
 
@@ -163,6 +147,7 @@ module.exports = {
     getStudybyCourse,
     getStudybyStudent,
     getStudybyId,
+    getTotalStudentbyCourse,
     createStudy,
     updateStudy,
     deleteStudy,
