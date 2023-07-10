@@ -17,4 +17,7 @@ router.route('/course')
 router.route('/id')
     .get(studyController.getStudybyId)
 
+router.route('/totalstudent')
+    .get(studyController.getTotalStudentbyCourse)
+
 module.exports = router

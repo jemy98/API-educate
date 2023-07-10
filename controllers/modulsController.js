@@ -41,6 +41,7 @@ const getModulbyId = asyncHandler(async (req, res) => {
 })
 
 const getTotalModul = asyncHandler(async (req, res) => {
+    const {courseid}= req.body
     const countmodul = await Modul.countDocuments({courseid:courseid})
 
     res.json(countmodul)
