@@ -13,7 +13,6 @@ const studySchema = new mongoose.Schema({
     },
     scoreid: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
         ref: 'Score'
     },
     status: {

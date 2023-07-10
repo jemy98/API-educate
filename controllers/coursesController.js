@@ -65,12 +65,6 @@ const createNewCourse = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: coursename })
     }
 
-    const duplicate = await Course.findOne({ coursename }).lean().exec()
-
-    if (duplicate) {
-        return res.status(409).json({ message: 'Duplicate coursename' })
-    }
-
     const courseObject = {instructorid, coursename, level, description, image }
 
     // Create and store new course 

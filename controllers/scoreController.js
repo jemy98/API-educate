@@ -1,9 +1,10 @@
 const Score = require('../models/Score')
 const asyncHandler = require('express-async-handler')
+const  ObjectID = require('mongodb').ObjectId;
 
 const getScoreByid = asyncHandler(async (req, res) => {
     const { id } = req.body
-    const score = await Score.findnyId(id).lean()
+    const score = await Score.findById(id).lean()
 
     // If no moduls 
     if (!score?.length) {
@@ -13,32 +14,72 @@ const getScoreByid = asyncHandler(async (req, res) => {
     res.json(score)
 })
 
+const getScoreByStudy = asyncHandler(async (req, res) => {
+    const { studyid } = req.body
+    const score = await Score.findOne({ "studyid": studyid }).lean()
 
+    // If no moduls 
+    if (!score?.length) {
+        return res.status(400).json({ message: 'No moduls found' })
+    }
 
-const updateScoreQuiz = asyncHandler(async (req, res) => {
-    const { id, score } = req.body
+    res.json(score)
+})
+
+const createScore = asyncHandler(async (req, res) => {
+    const { studyid} = req.body
+
+    // Confirm data
+    if (!studyid ) {
+        return res.status(400).json({ message: "Invalid Input" })
+    }
+
+    // Check for duplicate username
+    const duplicate = await Score.findOne({ "studyid": studyid }).lean().exec()
+
+    if (duplicate) {
+        return res.status(409).json({ message: 'Duplicate score' })
+    }
+
+    // Create and store new study
+    const skor = await Score.create({ "studyid": studyid })
+
+    if (skor) { //created 
+        res.status(201).json({ message: `New score created` })
+    } else {
+        res.status(400).json({ message: 'Invalid user data received' })
+    }
+})
+
+const addScoreQuiz = asyncHandler(async (req, res) => {
+    const { studyid, quizid, scorequiz } = req.body
 
     // Confirm data 
-    if (!id || !courseid ) {
+    if (!studyid || !scorequiz ) {
         return res.status(400).json({ message: "Invalid Input" })
     }
 
     // Does the user exist to update?
-    const study = await Study.findById(id).exec()
+    const quizscore = await Score.findOneAndUpdate(
+        { "studyid": new ObjectID(studyid)}, 
+        { "$push": { 
+                  "scorequiz": {
+                    "quizid": new ObjectID(quizid),
+                    "quizscore": scorequiz
+                    }  
+                } 
+        })
 
-    if (!id) {
+    if (!quizscore) {
         return res.status(400).json({ message: 'Study not found' })
     }
 
-    study.score = study.score + 10
-    study.progress= study.progress + 1
-
-    const updatedStudy = await study.save()
-
-    res.json({ message: `${updatedStudy.modulname} Score updated` })
+    res.json({ message: `Score updated` })
 })
 
 module.exports = {
     getScoreByid,
-
+    getScoreByStudy,
+    createScore,
+    addScoreQuiz
 }
