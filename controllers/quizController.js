@@ -18,7 +18,7 @@ const getAllQuiz = asyncHandler(async (req, res) => {
 })
 
 const getQuizbyId = asyncHandler(async (req, res) => {
-    const { id } = req.body
+    const { id } = req.header('id')
     const quiz = await Quiz.findById(id).exec()
 
     // If no moduls 

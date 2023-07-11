@@ -21,10 +21,6 @@ const courseSchema = new mongoose.Schema({
     image: {
         type: String,
         required: true
-    },
-    active: {
-        type: Boolean,
-        default: true
     }
 })
 

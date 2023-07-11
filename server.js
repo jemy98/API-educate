@@ -6,11 +6,13 @@ const connectDB = require('./config/dbConn')
 const mongoose = require('mongoose')
 const PORT = process.env.PORT || 3500;
 const bodyparser = require('body-parser')
+const cors = require('cors')
 
 console.log(process.env.NODE_ENV)
 
 connectDB()
 
+app.use(cors())
 app.use(bodyparser.json())
 
 app.use('/',express.static(path.join(__dirname,'/public')))

@@ -53,7 +53,7 @@ const getMyScore = asyncHandler(async (req, res) => {
 
 const getUserbyId = asyncHandler(async (req, res) => {
     // Get all users from MongoDB
-    const { id } = req.body
+    const { id } = req.header('id')
     const users = await User.findById(id).select('-password').lean()
 
     // If no users 

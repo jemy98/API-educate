@@ -17,7 +17,7 @@ const getAllModul = asyncHandler(async (req, res) => {
 })
 
 const getModulbyCourse = asyncHandler(async (req, res) => {
-    const { cid } = req.body
+    const { cid } = req.header('cid')
     const moduls = await Modul.find({courseid:cid}).lean()
 
     // If no moduls 
@@ -29,7 +29,7 @@ const getModulbyCourse = asyncHandler(async (req, res) => {
 })
 
 const getModulbyId = asyncHandler(async (req, res) => {
-    const { id } = req.body
+    const { id } = req.header('id')
     const moduls = await Modul.findById(id).lean()
 
     // If no moduls 
@@ -41,7 +41,7 @@ const getModulbyId = asyncHandler(async (req, res) => {
 })
 
 const getTotalModul = asyncHandler(async (req, res) => {
-    const {courseid}= req.body
+    const {courseid}= req.header('courseid')
     const countmodul = await Modul.countDocuments({courseid:courseid})
 
     res.json(countmodul)
