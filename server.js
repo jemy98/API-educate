@@ -24,6 +24,7 @@ app.use('/courses',require('./routes/courseRoutes'))
 app.use('/modul',require('./routes/modulRoutes'))
 app.use('/study',require('./routes/studyRoutes'))
 app.use('/quiz',require('./routes/quizRoutes'))
+app.use('/score',require('./routes/scoreRoutes'))
 
 
 

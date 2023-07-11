@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 const scorequizSchema = new mongoose.Schema({
     quizid: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
         ref: 'Quiz'
     },
     quizscore: {
@@ -21,7 +20,11 @@ const scoreSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    scorequiz:[scorequizSchema]
+    scorequiz:[scorequizSchema],
+    totalscore:{
+        type: Number,
+        default: 0
+    }
 })
 
 module.exports = mongoose.model('Score', scoreSchema)

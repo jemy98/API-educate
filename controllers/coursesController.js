@@ -18,7 +18,7 @@ const getAllCourse = asyncHandler(async (req, res) => {
 
 const getCoursebyInstructor = asyncHandler(async (req, res) => {
     // Get all courses from MongoDB
-    const {instid}= req.body
+    const instid= req.header('instid')
     const courses = await Course.find({instructorid:instid}).lean()
 
     // If no courses 
@@ -31,7 +31,7 @@ const getCoursebyInstructor = asyncHandler(async (req, res) => {
 
 const getCoursebyLevel = asyncHandler(async (req, res) => {
     // Get all courses from MongoDB
-    const {level}= req.body
+    const level = req.header('level')
     const courses = await Course.find({level:level}).lean()
 
     // If no courses 
@@ -63,12 +63,6 @@ const createNewCourse = asyncHandler(async (req, res) => {
     // Confirm data
     if (!instructorid) {
         return res.status(400).json({ message: coursename })
-    }
-
-    const duplicate = await Course.findOne({ coursename }).lean().exec()
-
-    if (duplicate) {
-        return res.status(409).json({ message: 'Duplicate coursename' })
     }
 
     const courseObject = {instructorid, coursename, level, description, image }

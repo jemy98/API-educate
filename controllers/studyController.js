@@ -1,5 +1,6 @@
 const Study = require('../models/Study')
 const asyncHandler = require('express-async-handler')
+const  ObjectID = require('mongodb').ObjectId;
 
 // @desc Get all users
 // @route GET /users
@@ -73,25 +74,28 @@ const createStudy = asyncHandler(async (req, res) => {
 })
 
 const updateStudy = asyncHandler(async (req, res) => {
-    const { studentid, courseid } = req.body
+    const { studyid } = req.body
 
     // Confirm data 
-    if (!studentid || !courseid ) {
+    if (!studyid) {
         return res.status(400).json({ message: "Invalid Input" })
     }
 
     // Does the user exist to update?
-    const study = await Study.findOne({ $and:[{ studentid: studentid, courseid: courseid }] }).lean()
+    const study = await Study.findOneAndUpdate(
+        { "_id": new ObjectID(studyid)}, 
+        { "$set": { 
+                  "status": true
+                } 
+        })
 
     if (!study) {
         return res.status(400).json({ message: 'Study not found' })
+    } else{
+        res.json({ message: `Status updated` })
     }
 
-    study.status = true
 
-    const updatedStudy = await study.save()
-
-    res.json({ message: `Status updated` })
 })
 
 const updateScore = asyncHandler(async (req, res) => {
