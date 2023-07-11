@@ -18,7 +18,7 @@ const getAllCourse = asyncHandler(async (req, res) => {
 
 const getCoursebyInstructor = asyncHandler(async (req, res) => {
     // Get all courses from MongoDB
-    const {instid}= req.body
+    const instid= req.header('instid')
     const courses = await Course.find({instructorid:instid}).lean()
 
     // If no courses 
@@ -31,7 +31,7 @@ const getCoursebyInstructor = asyncHandler(async (req, res) => {
 
 const getCoursebyLevel = asyncHandler(async (req, res) => {
     // Get all courses from MongoDB
-    const {level}= req.body
+    const level = req.header('level')
     const courses = await Course.find({level:level}).lean()
 
     // If no courses 
