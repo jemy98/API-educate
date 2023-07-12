@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler')
 const  ObjectID = require('mongodb').ObjectId;
 
 const getScoreByid = asyncHandler(async (req, res) => {
-    const { id } = req.body
+    const { id } = req.header('id')
     const score = await Score.findById(id).lean()
 
     // If no moduls 
@@ -15,7 +15,7 @@ const getScoreByid = asyncHandler(async (req, res) => {
 })
 
 const getScoreByStudy = asyncHandler(async (req, res) => {
-    const { studyid } = req.body
+    const { studyid } = req.header('studyid')
     const score = await Score.findOne({ "studyid": studyid }).lean()
 
     // If no moduls 

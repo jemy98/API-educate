@@ -50,14 +50,14 @@ const getTotalModul = asyncHandler(async (req, res) => {
 // @route POST /moduls
 // @access Private
 const createNewModul = asyncHandler(async (req, res) => {
-    const {courseid, modulname, score, description, image, video } = req.body
+    const {courseid, modulname, description, image, video } = req.body
 
     // Confirm data
     if (!courseid) {
         return res.status(400).json({ message: modulname })
     }
 
-    const modulObject = {courseid, modulname, score, description, image, video }
+    const modulObject = {courseid, modulname, description, image, video }
 
     // Create and store new modul 
     const modul = await Modul.create(modulObject)
@@ -73,7 +73,7 @@ const createNewModul = asyncHandler(async (req, res) => {
 // @route PATCH /moduls
 // @access Private
 const updateModul = asyncHandler(async (req, res) => {
-    const { id, modulname, score, description, image, video } = req.body
+    const { id, modulname, description, image, video } = req.body
 
     // Confirm data 
     if (!id ) {
@@ -96,7 +96,6 @@ const updateModul = asyncHandler(async (req, res) => {
     }
 
     modul.modulname = modulname
-    modul.score = score
     modul.description = description
     modul.image= image
     modul.video=video
