@@ -9,6 +9,9 @@ const courseSchema = new mongoose.Schema({
     coursename: {
         type: String,
         required: true
+    }, 
+    category:{
+        type:String
     },
     level: {
         type: String,

@@ -17,6 +17,9 @@ router.route('/instructor')
 router.route('/level')
     .get(coursesController.getCoursebyLevel)
 
+router.route('/category')
+    .get(coursesController.getCoursebyCategory)
+
 router.route('/newest')
     .get(coursesController.getNewestCourse)
 
