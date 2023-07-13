@@ -27,7 +27,7 @@ const quizSchema = new mongoose.Schema({
     type:Number,
   },
   question:[questionSchema]
-});
+},{timestamps: true});
 
 module.exports = mongoose.model("Quiz", quizSchema);
 

@@ -17,4 +17,7 @@ router.route('/instructor')
 router.route('/level')
     .get(coursesController.getCoursebyLevel)
 
+router.route('/newest')
+    .get(coursesController.getNewestCourse)
+
 module.exports = router
