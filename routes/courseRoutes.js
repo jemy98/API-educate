@@ -20,4 +20,7 @@ router.route('/level')
 router.route('/category')
     .get(coursesController.getCoursebyCategory)
 
+router.route('/newest')
+    .get(coursesController.getNewestCourse)
+
 module.exports = router

@@ -41,6 +41,19 @@ const getCoursebyCategory = asyncHandler(async (req, res) => {
     res.json(courses)
 })
 
+const getNewestCourse = asyncHandler(async (req, res) => {
+    // Get all courses from MongoDB
+    const instid= req.header('instid')
+    const courses = await Course.find({instructorid:instid}).sort({createdAt:'descending'}).limit(3).lean()
+
+    // If no courses 
+    if (!courses?.length) {
+        return res.status(400).json({ message: 'No courses found' })
+    }
+
+    res.json(courses)
+})
+
 const getCoursebyLevel = asyncHandler(async (req, res) => {
     // Get all courses from MongoDB
     const level = req.header('level')
@@ -156,6 +169,7 @@ module.exports = {
     getCoursebyCategory,
     getCoursebyId,
     getCoursebyLevel,
+    getNewestCourse,
     createNewCourse,
     updateCourse,
     deleteCourse
