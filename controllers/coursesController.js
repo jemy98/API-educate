@@ -102,6 +102,29 @@ const createNewCourse = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc Create new course
+// @route POST /courses
+// @access Private
+const createNewCourseImage = asyncHandler(async (req, res) => {
+    const {instructorid, coursename, level, description } = req.body
+    const image = req.file.path
+    // Confirm data
+    if (!instructorid) {
+        return res.status(400).json({ message: coursename })
+    }
+
+    const courseObject = {instructorid, coursename, level, description, image }
+
+    // Create and store new course 
+    const course = await Course.create(courseObject)
+
+    if (course) { //created 
+        res.status(201).json({ message: `New course ${coursename} created` })
+    } else {
+        res.status(400).json({ message: 'Invalid course data received' })
+    }
+})
+
 // @desc Update a course
 // @route PATCH /courses
 // @access Private
@@ -171,6 +194,7 @@ module.exports = {
     getCoursebyLevel,
     getNewestCourse,
     createNewCourse,
+    createNewCourseImage,
     updateCourse,
     deleteCourse
 }
