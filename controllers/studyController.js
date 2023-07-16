@@ -98,7 +98,7 @@ const updateStudy = asyncHandler(async (req, res) => {
 
 })
 
-const updateScore = asyncHandler(async (req, res) => {
+const updateProgress = asyncHandler(async (req, res) => {
     const { id, courseid } = req.body
 
     // Confirm data 
@@ -113,7 +113,6 @@ const updateScore = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: 'Study not found' })
     }
 
-    study.score = study.score + 10
     study.progress= study.progress + 1
 
     const updatedStudy = await study.save()
@@ -151,5 +150,5 @@ module.exports = {
     createStudy,
     updateStudy,
     deleteStudy,
-    updateScore,
+    updateProgress,
 }
