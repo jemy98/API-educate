@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const upload = require('../middleware/imgHandling')
 const coursesController = require('../controllers/coursesController')
 
 router.route('/')
@@ -22,5 +23,8 @@ router.route('/category')
 
 router.route('/newest')
     .get(coursesController.getNewestCourse)
+
+router.route('/image')
+    .post(upload.single("image"),coursesController.createNewCourseImage)
 
 module.exports = router
