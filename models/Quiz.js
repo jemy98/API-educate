@@ -10,7 +10,10 @@ const questionSchema = new mongoose.Schema({
       answerText: { type: String },
       isCorrect: { type: Boolean },
     }
-  ]
+  ],
+  image: {
+    type: String
+}
 });
 
 const quizSchema = new mongoose.Schema({
