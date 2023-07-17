@@ -14,6 +14,8 @@ console.log(process.env.NODE_ENV)
 
 connectDB()
 
+app.use('/',express.static(path.join(__dirname,'/public')))
+app.use('/uploads/coursesimg',express.static('uploads/coursesimg'))
 app.use(cors())
 app.use(bodyparser.json())
 app.use(function (req, res, next) {
@@ -21,8 +23,6 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     next();
   });
-
-app.use('/',express.static(path.join(__dirname,'/public')))
 
 app.use('/',require('./routes/root'))
 app.use('/users',require('./routes/userRoutes'))

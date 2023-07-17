@@ -5,7 +5,7 @@ const coursesController = require('../controllers/coursesController')
 
 router.route('/')
     .get(coursesController.getAllCourse)
-    .post(coursesController.createNewCourse)
+    .post(upload.single("image"),coursesController.createNewCourse)
     .patch(coursesController.updateCourse)
     .delete(coursesController.deleteCourse)
 
@@ -23,8 +23,5 @@ router.route('/category')
 
 router.route('/newest')
     .get(coursesController.getNewestCourse)
-
-router.route('/image')
-    .post(upload.single("image"),coursesController.createNewCourseImage)
 
 module.exports = router
