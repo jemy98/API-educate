@@ -25,7 +25,6 @@ const getCoursebyInstructor = asyncHandler(async (req, res) => {
     if (!courses?.length) {
         return res.status(400).json({ message: 'No courses found' })
     }
-
     res.json(courses)
 })
 
@@ -34,7 +33,7 @@ const getCoursebyCategory = asyncHandler(async (req, res) => {
     const courses = await Course.find({courseid:cid}).lean()
 
     // If no moduls 
-    if (!moduls?.length) {
+    if (!courses?.length) {
         return res.status(400).json({ message: 'No moduls found' })
     }
 
