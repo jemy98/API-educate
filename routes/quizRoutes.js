@@ -14,4 +14,7 @@ router.route('/id')
 router.route('/question')
     .post(quizController.addQuestion)
 
+router.route('/course')
+    .get(quizController.getQuizbyCourse)
+
 module.exports = router

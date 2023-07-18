@@ -6,7 +6,7 @@ const  ObjectID = require('mongodb').ObjectId;
 // @route GET /users
 // @access Private
 const getStudybyCourse = asyncHandler(async (req, res) => {
-    const { courseid } = req.header('courseid')
+    const  courseid  = req.header('courseid')
     const stud = await Study.find({courseid:courseid}).lean()
 
     // If no moduls 
@@ -18,7 +18,7 @@ const getStudybyCourse = asyncHandler(async (req, res) => {
 })
 
 const getStudybyStudent = asyncHandler(async (req, res) => {
-    const { studentid } = req.header('studentid')
+    const  studentid  = req.header('studentid')
     const stud = await Study.find({studentid:studentid}).lean()
 
     // If no moduls 
@@ -30,7 +30,7 @@ const getStudybyStudent = asyncHandler(async (req, res) => {
 })
 
 const getStudybyId = asyncHandler(async (req, res) => {
-    const { id } = req.header('id')
+    const  id  = req.header('id')
     const stud = await Study.findById(id).lean()
 
     // If no moduls 
@@ -42,7 +42,7 @@ const getStudybyId = asyncHandler(async (req, res) => {
 })
 
 const getTotalStudentbyCourse = asyncHandler(async (req, res) => {
-    const {courseid}= req.header('id')
+    const courseid= req.header('id')
     const countmodul = await Study.countDocuments({courseid:courseid})
 
     res.json(countmodul)

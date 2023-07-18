@@ -18,12 +18,24 @@ const getAllQuiz = asyncHandler(async (req, res) => {
 })
 
 const getQuizbyId = asyncHandler(async (req, res) => {
-    const { id } = req.header('id')
+    const  id  = req.header('id')
     const quiz = await Quiz.findById(id).exec()
 
     // If no moduls 
     if (!id) {
         return res.status(400).json({ message: 'modul not found' })
+    }
+
+    res.json(quiz)
+})
+
+const getQuizbyCourse = asyncHandler(async (req, res) => {
+    const  cid  = req.header('cid')
+    const quiz = await Quiz.find({courseid:cid}).lean()
+
+    // If no moduls 
+    if (!quiz?.length) {
+        return res.status(400).json({ message: "Quiz not found" })
     }
 
     res.json(quiz)
@@ -45,7 +57,7 @@ const createNewQuiz = asyncHandler(async (req, res) => {
     const quiz = await Quiz.create(quizObject)
 
     if (quiz) { //created 
-        res.status(201).json({ message: `New modul ${quizname} created` })
+        res.status(201).json({ message: `New quiz ${quizname} created` })
     } else {
         res.status(400).json({ message: 'Invalid modul data received' })
     }
@@ -143,6 +155,7 @@ const deleteQuiz = asyncHandler(async (req, res) => {
 module.exports = {
     getAllQuiz,
     getQuizbyId,
+    getQuizbyCourse,
     createNewQuiz,
     addQuestion,
     updateQuiz,

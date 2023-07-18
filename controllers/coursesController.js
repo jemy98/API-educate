@@ -30,7 +30,7 @@ const getCoursebyInstructor = asyncHandler(async (req, res) => {
 })
 
 const getCoursebyCategory = asyncHandler(async (req, res) => {
-    const { category } = req.header('category')
+    const  category  = req.header('category')
     const courses = await Course.find({courseid:cid}).lean()
 
     // If no moduls 
@@ -68,7 +68,7 @@ const getCoursebyLevel = asyncHandler(async (req, res) => {
 })
 
 const getCoursebyId = asyncHandler(async (req, res) => {
-    const { id } = req.header('id')
+    const  id  = req.header('id')
     const courses = await Course.findById(id).lean()
 
     // If no moduls 

@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
+const upload = require('../middleware/imgHandling')
 const modulsController = require('../controllers/modulsController')
 
 router.route('/')
     .get(modulsController.getAllModul)
-    .post(modulsController.createNewModul)
+    .post(upload.single("image"),modulsController.createNewModul)
     .patch(modulsController.updateModul)
     .delete(modulsController.deleteModul)
 

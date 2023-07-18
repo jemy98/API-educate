@@ -17,19 +17,19 @@ const getAllModul = asyncHandler(async (req, res) => {
 })
 
 const getModulbyCourse = asyncHandler(async (req, res) => {
-    const { cid } = req.header('cid')
+    const  cid  = req.header('cid')
     const moduls = await Modul.find({courseid:cid}).lean()
 
     // If no moduls 
     if (!moduls?.length) {
-        return res.status(400).json({ message: 'No moduls found' })
+        return res.status(400).json({ message: cid })
     }
 
     res.json(moduls)
 })
 
 const getModulbyId = asyncHandler(async (req, res) => {
-    const { id } = req.header('id')
+    const  id  = req.header('id')
     const moduls = await Modul.findById(id).lean()
 
     // If no moduls 
@@ -41,7 +41,7 @@ const getModulbyId = asyncHandler(async (req, res) => {
 })
 
 const getTotalModul = asyncHandler(async (req, res) => {
-    const {courseid}= req.header('courseid')
+    const courseid= req.header('courseid')
     const countmodul = await Modul.countDocuments({courseid:courseid})
 
     res.json(countmodul)
@@ -50,14 +50,14 @@ const getTotalModul = asyncHandler(async (req, res) => {
 // @route POST /moduls
 // @access Private
 const createNewModul = asyncHandler(async (req, res) => {
-    const {courseid, modulname, description, image, video } = req.body
-
+    const {courseid, modulname, description } = req.body
+    const image = req.file.path
     // Confirm data
     if (!courseid) {
-        return res.status(400).json({ message: modulname })
+        return res.status(400).json({ message: "There is no course" })
     }
 
-    const modulObject = {courseid, modulname, description, image, video }
+    const modulObject = {courseid, modulname, description, image }
 
     // Create and store new modul 
     const modul = await Modul.create(modulObject)
