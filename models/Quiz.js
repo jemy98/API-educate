@@ -12,7 +12,8 @@ const questionSchema = new mongoose.Schema({
     }
   ],
   image: {
-    type: String
+    type: String,
+    default: ""
 }
 });
 
@@ -28,6 +29,7 @@ const quizSchema = new mongoose.Schema({
   },
   score: {
     type:Number,
+    default: 0
   },
   question:[questionSchema]
 },{timestamps: true});

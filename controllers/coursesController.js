@@ -1,5 +1,7 @@
 const Course = require('../models/Course')
+const Study = require('../models/Study')
 const asyncHandler = require('express-async-handler')
+const  ObjectID = require('mongodb').ObjectId;
 
 // @desc Get all courses
 // @route GET /courses
@@ -67,6 +69,30 @@ const getCoursebyLevel = asyncHandler(async (req, res) => {
     res.json(courses)
 })
 
+const getCoursebyStudy = asyncHandler(async (req, res) => {
+    // Get all courses from MongoDB
+    const userid = req.header('userid')
+    const courseid = req.header('courseid')
+    const item = await Study.aggregate([
+    {
+        $lookup:
+       {
+         from: "courses",
+         localField: "courseid",
+         foreignField: "courseid",
+         as: "fusion"
+       }
+       }
+    ]).exec()
+
+    // If no courses 
+    if (!item?.length) {
+        return res.status(400).json({ message: 'No courses found' })
+    }
+
+    res.json(item)
+})
+
 const getCoursebyId = asyncHandler(async (req, res) => {
     const  id  = req.header('id')
     const courses = await Course.findById(id).lean()
@@ -84,13 +110,16 @@ const getCoursebyId = asyncHandler(async (req, res) => {
 // @access Private
 const createNewCourse = asyncHandler(async (req, res) => {
     const {instructorid, coursename, level, description } = req.body
-    const image = req.file.path
+    let image = ""
+    if(req.file){
+         image = image + req.file.path
+    }
     // Confirm data
     if (!instructorid) {
-        return res.status(400).json({ message: coursename })
+        return res.status(400).json({ message: "Invalid Input" })
     }
 
-    const courseObject = {instructorid, coursename, level, description, image }
+    const courseObject = {instructorid, coursename, level, description, image}
 
     // Create and store new course 
     const course = await Course.create(courseObject)
@@ -170,6 +199,7 @@ module.exports = {
     getCoursebyCategory,
     getCoursebyId,
     getCoursebyLevel,
+    getCoursebyStudy,
     getNewestCourse,
     createNewCourse,
     updateCourse,

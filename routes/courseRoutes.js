@@ -24,4 +24,7 @@ router.route('/category')
 router.route('/newest')
     .get(coursesController.getNewestCourse)
 
+router.route('/study')
+    .get(coursesController.getCoursebyStudy)
+
 module.exports = router

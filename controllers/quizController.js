@@ -48,7 +48,7 @@ const createNewQuiz = asyncHandler(async (req, res) => {
 
     // Confirm data
     if (!courseid) {
-        return res.status(400).json({ message: quizname })
+        return res.status(400).json({ message: "Invalid Input" })
     }
 
     const quizObject = {courseid, quizname }
@@ -59,7 +59,7 @@ const createNewQuiz = asyncHandler(async (req, res) => {
     if (quiz) { //created 
         res.status(201).json({ message: `New quiz ${quizname} created` })
     } else {
-        res.status(400).json({ message: 'Invalid modul data received' })
+        res.status(400).json({ message: 'Invalid quiz data received' })
     }
 })
 
@@ -79,8 +79,7 @@ const addQuestion = asyncHandler(async (req, res) => {
                      "question": {
                        "questionname": questionname,
                         "answersOptions": answeroptions,
-                       "score": score
-                       }  
+                       }
                    } 
            })
     if (quiz) { //created 

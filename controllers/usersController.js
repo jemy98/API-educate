@@ -32,7 +32,7 @@ const getAllScore = asyncHandler(async (req, res) => {
 const getMyScore = asyncHandler(async (req, res) => {
     // Get all users from MongoDB
     const all = await User.find({roles:"Student"}).sort({score:'descending'}).exec()
-    const { id } = req.body
+    const id  = req.header('id')
     const users = await User.findById(id).select('-password').lean()
     let rank = 0
     let hit = 1
