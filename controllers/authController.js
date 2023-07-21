@@ -98,4 +98,4 @@ const logout = (req, res) => {
     res.json({ message: 'Cookie cleared' })
 }
 
-module.exports = {UserServices, register, login, logout};
+module.exports = { register,login,logout,UserServices };

@@ -44,7 +44,6 @@ const getStudybyId = asyncHandler(async (req, res) => {
 const getTotalStudentbyCourse = asyncHandler(async (req, res) => {
     const courseid= req.header('id')
     const countmodul = await Study.countDocuments({courseid:courseid})
-
     res.json(countmodul)
 })
 

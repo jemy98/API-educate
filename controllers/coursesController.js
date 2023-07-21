@@ -27,7 +27,6 @@ const getCoursebyInstructor = asyncHandler(async (req, res) => {
     if (!courses?.length) {
         return res.status(400).json({ message: 'No courses found' })
     }
-
     res.json(courses)
 })
 
@@ -36,7 +35,7 @@ const getCoursebyCategory = asyncHandler(async (req, res) => {
     const courses = await Course.find({courseid:cid}).lean()
 
     // If no moduls 
-    if (!moduls?.length) {
+    if (!courses?.length) {
         return res.status(400).json({ message: 'No moduls found' })
     }
 
@@ -136,8 +135,8 @@ const createNewCourse = asyncHandler(async (req, res) => {
 // @route PATCH /courses
 // @access Private
 const updateCourse = asyncHandler(async (req, res) => {
-    const { id, coursename, level, description, image } = req.body
-
+    const { id, coursename, level, description } = req.body
+    const image = req.file.path
     // Confirm data 
     if (!id ) {
         return res.status(400).json({ message: 'All fields are required' })
