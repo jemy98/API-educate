@@ -106,8 +106,8 @@ const createNewCourse = asyncHandler(async (req, res) => {
 // @route PATCH /courses
 // @access Private
 const updateCourse = asyncHandler(async (req, res) => {
-    const { id, coursename, level, description, image } = req.body
-
+    const { id, coursename, level, description } = req.body
+    const image = req.file.path
     // Confirm data 
     if (!id ) {
         return res.status(400).json({ message: 'All fields are required' })

@@ -40,6 +40,32 @@ const getModulbyId = asyncHandler(async (req, res) => {
     res.json(moduls)
 })
 
+const getNextModul = asyncHandler(async (req, res) => {
+    const  id  = req.header('id')
+    const moduls = await Modul.findById(id).lean()
+    const number = moduls.no;
+    const next = await Modul.findOne({no:{$gt:id}})
+     
+    if (!id) {
+        return res.status(400).json({ message: 'modul not found' })
+    } 
+
+    res.json(next)
+})
+
+const getPrevModul = asyncHandler(async (req, res) => {
+    const  id  = req.header('id')
+    const moduls = await Modul.findById(id).lean()
+    const number = moduls.no;
+    const next = await Modul.findOne({no:{$lt:id}})
+     
+    if (!id) {
+        return res.status(400).json({ message: 'modul not found' })
+    } 
+
+    res.json(next)
+})
+
 const getTotalModul = asyncHandler(async (req, res) => {
     const courseid= req.header('courseid')
     const countmodul = await Modul.countDocuments({courseid:courseid})
@@ -135,6 +161,8 @@ module.exports = {
     getModulbyCourse,
     getTotalModul,
     getModulbyId,
+    getNextModul,
+    getPrevModul,
     createNewModul,
     updateModul,
     deleteModul

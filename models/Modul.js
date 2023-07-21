@@ -10,8 +10,12 @@ const modulSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    description: {
+    materi: {
         type: String,
+        required: true
+    },
+    no: {
+        type: Number,
         required: true
     },
     image: {
