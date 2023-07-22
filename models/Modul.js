@@ -10,7 +10,7 @@ const modulSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    materi: {
+    description: {
         type: String,
         required: true
     },
