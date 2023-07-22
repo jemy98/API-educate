@@ -77,7 +77,10 @@ const getTotalModul = asyncHandler(async (req, res) => {
 // @access Private
 const createNewModul = asyncHandler(async (req, res) => {
     const {courseid, modulname, description } = req.body
-    const image = req.file.path
+    let image = ""
+    if(req.file){
+         image = image + req.file.path
+    }
     // Confirm data
     if (!courseid) {
         return res.status(400).json({ message: "There is no course" })
