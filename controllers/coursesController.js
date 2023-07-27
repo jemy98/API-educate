@@ -1,4 +1,5 @@
-const Course = require('../models/Course')
+const Course = require('../models/Course');
+const Modul = require('../models/Modul');
 const Study = require('../models/Study')
 const asyncHandler = require('express-async-handler')
 const  ObjectID = require('mongodb').ObjectId;
@@ -72,17 +73,8 @@ const getCoursebyStudy = asyncHandler(async (req, res) => {
     // Get all courses from MongoDB
     const userid = req.header('userid')
     const courseid = req.header('courseid')
-    const item = await Study.aggregate([
-    {
-        $lookup:
-       {
-         from: "courses",
-         localField: "courseid",
-         foreignField: "courseid",
-         as: "fusion"
-       }
-       }
-    ]).exec()
+    const item = await Study.find({studentid:userid}).populate('courseid').lean()
+    
 
     // If no courses 
     if (!item?.length) {
@@ -103,6 +95,7 @@ const getCoursebyId = asyncHandler(async (req, res) => {
 
     res.json(courses)
 })
+
 
 // @desc Create new course
 // @route POST /courses
@@ -202,5 +195,5 @@ module.exports = {
     getNewestCourse,
     createNewCourse,
     updateCourse,
-    deleteCourse
+    deleteCourse,
 }

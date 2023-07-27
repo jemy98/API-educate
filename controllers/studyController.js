@@ -59,7 +59,7 @@ const createStudy = asyncHandler(async (req, res) => {
     const duplicate = await Study.findOne({ $and:[{ studentid: studentid, courseid: courseid }] }).lean().exec()
 
     if (duplicate) {
-        return res.status(409).json({ message: 'Duplicate study' })
+        return res.status(409).json({ message: 'You already take this class' })
     }
 
     // Create and store new study
