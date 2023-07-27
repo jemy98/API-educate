@@ -62,10 +62,10 @@ const createStudy = asyncHandler(async (req, res) => {
     if (duplicate) {
         return res.status(409).json({ message: 'You already take this class' })
     }
-    const skor = await Score.create()
-    //const skorid = skor._id
+    const skor = await Score.create({totalscore:0})
+    const skorid = skor._id
     // Create and store new study
-    const studa = await Study.create({ studentid: studentid, courseid: courseid })
+    const studa = await Study.create({ studentid: studentid, courseid: courseid, scoreid:skorid})
 
     if (studa) { //created 
         res.status(201).json({ message: `New study created` })
