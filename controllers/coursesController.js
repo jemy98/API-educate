@@ -71,24 +71,7 @@ const getCoursebyLevel = asyncHandler(async (req, res) => {
 const getCoursebyStudy = asyncHandler(async (req, res) => {
     // Get all courses from MongoDB
     const userid = req.header('userid')
-    const courseid = req.header('courseid')
-    const item = await Study.aggregate([
-    {
-        $lookup:
-       {
-         from: "courses",
-         localField: "courseid",
-         foreignField: "courseid",
-         as: "fusion"
-       }
-       }
-    ]).exec()
-
-    // If no courses 
-    if (!item?.length) {
-        return res.status(400).json({ message: 'No courses found' })
-    }
-
+    const item = await Study.find({studentid:userid}).populate('courseid').lean()
     res.json(item)
 })
 

@@ -44,7 +44,7 @@ const getNextModul = asyncHandler(async (req, res) => {
     const  id  = req.header('id')
     const moduls = await Modul.findById(id).lean()
     const number = moduls.no;
-    const next = await Modul.findOne({no:{$gt:id}})
+    const next = await Modul.findOne({no:{$gt:number}})
      
     if (!id) {
         return res.status(400).json({ message: 'modul not found' })
@@ -57,7 +57,7 @@ const getPrevModul = asyncHandler(async (req, res) => {
     const  id  = req.header('id')
     const moduls = await Modul.findById(id).lean()
     const number = moduls.no;
-    const next = await Modul.findOne({no:{$lt:id}})
+    const next = await Modul.findOne({no:{$lt:number}})
      
     if (!id) {
         return res.status(400).json({ message: 'modul not found' })
@@ -76,7 +76,7 @@ const getTotalModul = asyncHandler(async (req, res) => {
 // @route POST /moduls
 // @access Private
 const createNewModul = asyncHandler(async (req, res) => {
-    const {courseid, modulname, description } = req.body
+    const {courseid, modulname, description, no} = req.body
     let image = ""
     if(req.file){
          image = image + req.file.path
@@ -86,7 +86,7 @@ const createNewModul = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: "There is no course" })
     }
 
-    const modulObject = {courseid, modulname, description, image }
+    const modulObject = {courseid, modulname, description, image,no }
 
     // Create and store new modul 
     const modul = await Modul.create(modulObject)
