@@ -11,11 +11,6 @@ const scorequizSchema = new mongoose.Schema({
   });
 
 const scoreSchema = new mongoose.Schema({
-    studyid: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Study'
-    },
     scoremodul: {
         type: Number,
         default: 0

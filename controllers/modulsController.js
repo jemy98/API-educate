@@ -40,6 +40,30 @@ const getModulbyId = asyncHandler(async (req, res) => {
     res.json(moduls)
 })
 
+const getPembelajaran = asyncHandler(async (req, res) => {
+    const  courseid  = req.header('courseid')
+    const mod = await Modul.aggregate([
+        {
+            $match:{"courseid": courseid}
+        },{
+            $lookup:
+        {
+           from: "quizzes",
+           localField: "courseid",
+           foreignField: "courseid",
+           as: "belajar"
+        }
+        }
+    ])
+
+    // If no moduls 
+    if (!mod?.length) {
+        return res.status(400).json({ message: 'No moduls found' })
+    }
+
+    res.json(mod)
+})
+
 const getNextModul = asyncHandler(async (req, res) => {
     const  id  = req.header('id')
     const moduls = await Modul.findById(id).lean()
@@ -174,5 +198,6 @@ module.exports = {
     getPrevModul,
     createNewModul,
     updateModul,
-    deleteModul
+    deleteModul,
+    getPembelajaran,
 }

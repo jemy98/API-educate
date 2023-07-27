@@ -18,4 +18,7 @@ router.route('/course')
 router.route('/total')
     .get(modulsController.getTotalModul)
 
+router.route('/allmateri')
+    .get(modulsController.getPembelajaran)
+
 module.exports = router
