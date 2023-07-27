@@ -17,6 +17,13 @@ const getAllQuiz = asyncHandler(async (req, res) => {
     res.json(quiz)
 })
 
+const getTotalQuiz = asyncHandler(async (req, res) => {
+    const courseid= req.header('courseid')
+    const countquiz = await Quiz.countDocuments({courseid:courseid})
+
+    res.json(countquiz)
+})
+
 const getQuizbyId = asyncHandler(async (req, res) => {
     const  id  = req.header('id')
     const quiz = await Quiz.findById(id).exec()
@@ -160,6 +167,7 @@ const deleteQuiz = asyncHandler(async (req, res) => {
 module.exports = {
     getAllQuiz,
     getQuizbyId,
+    getTotalQuiz,
     getQuizbyCourse,
     createNewQuiz,
     addQuestion,
