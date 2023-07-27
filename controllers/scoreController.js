@@ -58,8 +58,7 @@ const addScoreQuiz = asyncHandler(async (req, res) => {
     if (!studyid || !scorequiz ) {
         return res.status(400).json({ message: "Invalid Input" })
     }
-
-    // Does the user exist to update?
+    
     const quizscore = await Score.findOneAndUpdate(
         { "studyid": new ObjectID(studyid)}, 
         { "$push": { 
@@ -69,7 +68,9 @@ const addScoreQuiz = asyncHandler(async (req, res) => {
                     }  
                 } 
         })
-
+    const sqore = await Score.findOne({studyid: studyid}).exec()
+    sqore.totalscore = sqore.totalscore + scorequiz
+    const successsqore = await sqore.save()
     if (!quizscore) {
         return res.status(400).json({ message: 'Study not found' })
     }
