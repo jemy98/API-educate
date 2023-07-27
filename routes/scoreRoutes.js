@@ -9,6 +9,9 @@ router.route('/')
 router.route('/study')
     .get(scoreController.getScoreByStudy)
 
+router.route('/student')
+    .get(scoreController.getTotalScoreStudent)
+
 router.route('/id')
     .get(scoreController.getScoreByid)
 
