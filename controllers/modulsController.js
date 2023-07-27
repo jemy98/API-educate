@@ -76,8 +76,9 @@ const getTotalModul = asyncHandler(async (req, res) => {
 // @route POST /moduls
 // @access Private
 const createNewModul = asyncHandler(async (req, res) => {
-    const {courseid, modulname, description, no} = req.body
+    const {courseid, modulname, description} = req.body
     let image = ""
+    let no = 1
     if(req.file){
          image = image + req.file.path
     }
@@ -85,7 +86,12 @@ const createNewModul = asyncHandler(async (req, res) => {
     if (!courseid) {
         return res.status(400).json({ message: "There is no course" })
     }
-
+    const mod = await Modul.findOne({courseid:courseid}).sort({no:"descending"}).exec()
+    if(!mod){
+       no=1
+    } else {
+        no = mod.no + 1
+    }
     const modulObject = {courseid, modulname, description, image,no }
 
     // Create and store new modul 

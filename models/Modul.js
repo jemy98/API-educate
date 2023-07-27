@@ -16,7 +16,7 @@ const modulSchema = new mongoose.Schema({
     },
     no: {
         type: Number,
-        required: true
+        default:0
     },
     image: {
         type: String,

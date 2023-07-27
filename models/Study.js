@@ -19,7 +19,11 @@ const studySchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    progress: {
+    progressmodul: {
+        type: Number,
+        default:0
+    },
+    progressquiz: {
         type: Number,
         default:0
     }
