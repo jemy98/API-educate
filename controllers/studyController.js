@@ -97,7 +97,7 @@ const updateStudy = asyncHandler(async (req, res) => {
 
 })
 
-const updateProgress = asyncHandler(async (req, res) => {
+const updateProgressModul = asyncHandler(async (req, res) => {
     const { id, courseid } = req.body
 
     // Confirm data 
@@ -112,11 +112,33 @@ const updateProgress = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: 'Study not found' })
     }
 
-    study.progress= study.progress + 1
+    study.progressmodul= study.progressmodul + 1
 
     const updatedStudy = await study.save()
 
-    res.json({ message: `${updatedStudy.modulname} Score updated` })
+    res.json({ message: `${updatedStudy.modulname} Progress updated` })
+})
+
+const updateProgressQuiz = asyncHandler(async (req, res) => {
+    const { id, courseid } = req.body
+
+    // Confirm data 
+    if (!id || !courseid ) {
+        return res.status(400).json({ message: "Invalid Input" })
+    }
+
+    // Does the user exist to update?
+    const study = await Study.findById(id).exec()
+
+    if (!id) {
+        return res.status(400).json({ message: 'Study not found' })
+    }
+
+    study.progressquiz= study.progressquiz + 1
+
+    const updatedStudy = await study.save()
+
+    res.json({ message: `${updatedStudy.modulname} Progress updated` })
 })
 
 const deleteStudy = asyncHandler(async (req, res) => {
@@ -149,5 +171,6 @@ module.exports = {
     createStudy,
     updateStudy,
     deleteStudy,
-    updateProgress,
+    updateProgressModul,
+    updateProgressQuiz
 }

@@ -72,7 +72,7 @@ const getCoursebyLevel = asyncHandler(async (req, res) => {
 const getCoursebyStudy = asyncHandler(async (req, res) => {
     // Get all courses from MongoDB
     const userid = req.header('userid')
-    const courseid = req.header('courseid')
+
     const item = await Study.find({studentid:userid}).populate('courseid').lean()
     
 

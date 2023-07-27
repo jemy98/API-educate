@@ -17,6 +17,13 @@ const getAllQuiz = asyncHandler(async (req, res) => {
     res.json(quiz)
 })
 
+const getTotalQuiz = asyncHandler(async (req, res) => {
+    const courseid= req.header('courseid')
+    const countquiz = await Quiz.countDocuments({courseid:courseid})
+
+    res.json(countquiz)
+})
+
 const getQuizbyId = asyncHandler(async (req, res) => {
     const  id  = req.header('id')
     const quiz = await Quiz.findById(id).exec()
@@ -45,13 +52,19 @@ const getQuizbyCourse = asyncHandler(async (req, res) => {
 // @access Private
 const createNewQuiz = asyncHandler(async (req, res) => {
     const {courseid, quizname } = req.body
-
+    let no=1
     // Confirm data
     if (!courseid) {
         return res.status(400).json({ message: "Invalid Input" })
     }
 
-    const quizObject = {courseid, quizname }
+    const kuis = await Quiz.findOne({courseid:courseid}).sort({no:"descending"}).exec()
+    if(!kuis){
+        no=1
+     } else {
+         no = kuis.no + 1
+     }
+    const quizObject = {courseid, quizname,no }
 
     // Create and store new modul 
     const quiz = await Quiz.create(quizObject)
@@ -154,6 +167,7 @@ const deleteQuiz = asyncHandler(async (req, res) => {
 module.exports = {
     getAllQuiz,
     getQuizbyId,
+    getTotalQuiz,
     getQuizbyCourse,
     createNewQuiz,
     addQuestion,

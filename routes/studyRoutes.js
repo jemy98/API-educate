@@ -9,7 +9,7 @@ router.route('/')
     .delete(studyController.deleteStudy)
 
 router.route('/score')
-    .patch(studyController.updateProgress)
+    .patch(studyController.updateProgressModul)
 
 router.route('/course')
     .get(studyController.getStudybyCourse)
