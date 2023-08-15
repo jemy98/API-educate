@@ -8,8 +8,11 @@ router.route('/')
     .patch(studyController.updateStudy)
     .delete(studyController.deleteStudy)
 
-router.route('/score')
+router.route('/progressmodul')
     .patch(studyController.updateProgressModul)
+
+router.route('/progressquiz')
+    .patch(studyController.updateProgressQuiz)
 
 router.route('/course')
     .get(studyController.getStudybyCourse)

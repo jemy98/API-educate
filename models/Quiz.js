@@ -1,38 +1,22 @@
 const mongoose = require("mongoose");
 
-const questionSchema = new mongoose.Schema({
-  questionname: {
-    type: String,
-    required: true,
-  },
-  answersOptions: [
-    {
-      answerText: { type: String },
-      isCorrect: { type: Boolean },
+const quizSchema = new mongoose.Schema(
+  {
+    courseid: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Course",
+    },
+    quizname: {
+      type: String,
+      required: true,
+    },
+    no: {
+      type: Number,
+      default: 0,
     }
-  ],
-  image: {
-    type: String,
-    default: ""
-}
-});
-
-const quizSchema = new mongoose.Schema({
-  courseid: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: "Course",
   },
-  quizname: {
-    type: String,
-    required: true,
-  },
-  no:{
-    type: Number,
-    default:0,
-  },
-  question:[questionSchema]
-},{timestamps: true});
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("Quiz", quizSchema);
-

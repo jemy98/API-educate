@@ -1,4 +1,5 @@
 const Quiz = require('../models/Quiz')
+const Question= require('../models/Question')
 const asyncHandler = require('express-async-handler')
 const  ObjectID = require('mongodb').ObjectId;
 
@@ -27,6 +28,18 @@ const getTotalQuiz = asyncHandler(async (req, res) => {
 const getQuizbyId = asyncHandler(async (req, res) => {
     const  id  = req.header('id')
     const quiz = await Quiz.findById(id).exec()
+
+    // If no moduls 
+    if (!id) {
+        return res.status(400).json({ message: 'modul not found' })
+    }
+
+    res.json(quiz)
+})
+
+const getQuestionbyQuiz = asyncHandler(async (req, res) => {
+    const  id  = req.header('id')
+    const quiz = await Question.find({quizid:id}).exec()
 
     // If no moduls 
     if (!id) {
@@ -68,35 +81,24 @@ const createNewQuiz = asyncHandler(async (req, res) => {
 
     // Create and store new modul 
     const quiz = await Quiz.create(quizObject)
+    const qid= await Quiz.findOne({no:no}).exec()
 
     if (quiz) { //created 
-        res.status(201).json({ message: `New quiz ${quizname} created` })
+        res.status(201).json({ message: `New quiz ${quizname} created` ,qid:qid._id})
     } else {
         res.status(400).json({ message: 'Invalid quiz data received' })
     }
 })
 
 const addQuestion = asyncHandler(async (req, res) => {
-    const {quizid, questionname, answeroptions, score } = req.body
+    const {quizdata } = req.body
 
     // Confirm data
-    if (!quizid) {
-        return res.status(400).json({ message: "Invalid Input" })
-    }
 
-    const questionObject = {questionname, answeroptions, score }
-    // Create and store new modul 
-    const quiz = await Quiz.findOneAndUpdate(
-           { "_id": new ObjectID(quizid)}, 
-           { "$push": { 
-                     "question": [{
-                       "questionname": questionname,
-                        "answersOptions": [answeroptions]
-                       }  ]
-                   } 
-           })
+    const quiz= await Question.insertMany(quizdata);
+
     if (quiz) { //created 
-        res.status(201).json({ message: `New qustion ${questionname} created` })
+        res.status(200).json({ message: `New question created` })
     } else {
         res.status(400).json({ message: 'Invalid question data received' })
     }
@@ -171,6 +173,7 @@ module.exports = {
     getQuizbyCourse,
     createNewQuiz,
     addQuestion,
+    getQuestionbyQuiz,
     updateQuiz,
     deleteQuiz
 }

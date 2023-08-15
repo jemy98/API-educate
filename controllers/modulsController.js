@@ -18,7 +18,7 @@ const getAllModul = asyncHandler(async (req, res) => {
 
 const getModulbyCourse = asyncHandler(async (req, res) => {
     const  cid  = req.header('cid')
-    const moduls = await Modul.find({courseid:cid}).lean()
+    const moduls = await Modul.find({courseid:cid}).sort({no:"ascending"}).lean()
 
     // If no moduls 
     if (!moduls?.length) {
@@ -68,7 +68,7 @@ const getNextModul = asyncHandler(async (req, res) => {
     const  id  = req.header('id')
     const moduls = await Modul.findById(id).lean()
     const number = moduls.no;
-    const next = await Modul.findOne({no:{$gt:number}})
+    const next = await Modul.findOne({no:{$gt:number}}).sort({no:'ascending'})
      
     if (!id) {
         return res.status(400).json({ message: 'modul not found' })
@@ -81,7 +81,7 @@ const getPrevModul = asyncHandler(async (req, res) => {
     const  id  = req.header('id')
     const moduls = await Modul.findById(id).lean()
     const number = moduls.no;
-    const next = await Modul.findOne({no:{$lt:number}})
+    const next = await Modul.findOne({no:{$lt:number}}).sort({no:'descending'})
      
     if (!id) {
         return res.status(400).json({ message: 'modul not found' })
@@ -91,7 +91,7 @@ const getPrevModul = asyncHandler(async (req, res) => {
 })
 
 const getTotalModul = asyncHandler(async (req, res) => {
-    const courseid= req.header('courseid')
+    const courseid= req.header('cid')
     const countmodul = await Modul.countDocuments({courseid:courseid})
 
     res.json(countmodul)
@@ -132,12 +132,7 @@ const createNewModul = asyncHandler(async (req, res) => {
 // @route PATCH /moduls
 // @access Private
 const updateModul = asyncHandler(async (req, res) => {
-    const { id, modulname, description, image, video } = req.body
-
-    // Confirm data 
-    if (!id ) {
-        return res.status(400).json({ message: 'All fields are required' })
-    }
+    const { id, modulname, description } = req.body
 
     // Does the modul exist to update?
     const modul = await Modul.findById(id).exec()
@@ -145,19 +140,8 @@ const updateModul = asyncHandler(async (req, res) => {
     if (!id) {
         return res.status(400).json({ message: 'modul not found' })
     }
-
-    // Check for duplicate 
-    const duplicate = await Modul.findOne({ modulname }).lean().exec()
-
-    // Allow updates to the original modul 
-    if (duplicate && duplicate?._id.toString() !== id) {
-        return res.status(409).json({ message: 'Duplicate modulname' })
-    }
-
     modul.modulname = modulname
     modul.description = description
-    modul.image= image
-    modul.video=video
 
     const updatedmodul = await modul.save()
 

@@ -7,8 +7,8 @@ const  ObjectID = require('mongodb').ObjectId;
 // @route GET /users
 // @access Private
 const getStudybyCourse = asyncHandler(async (req, res) => {
-    const  courseid  = req.header('courseid')
-    const stud = await Study.find({courseid:courseid}).lean()
+    const  courseid  = req.header('cid')
+    const stud = await Study.find({courseid:courseid}).populate('studentid').lean()
 
     // If no moduls 
     if (!stud?.length) {
@@ -43,7 +43,7 @@ const getStudybyId = asyncHandler(async (req, res) => {
 })
 
 const getTotalStudentbyCourse = asyncHandler(async (req, res) => {
-    const courseid= req.header('id')
+    const courseid= req.header('courseid')
     const countmodul = await Study.countDocuments({courseid:courseid})
     res.json(countmodul)
 })
@@ -110,7 +110,7 @@ const updateProgressModul = asyncHandler(async (req, res) => {
     // Does the user exist to update?
     const study = await Study.findById(id).exec()
 
-    if (!id) {
+    if (!study) {
         return res.status(400).json({ message: 'Study not found' })
     }
 

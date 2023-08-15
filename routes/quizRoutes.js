@@ -14,6 +14,9 @@ router.route('/id')
 router.route('/question')
     .post(quizController.addQuestion)
 
+router.route('/questionquiz')
+    .get(quizController.getQuestionbyQuiz)
+
 router.route('/course')
     .get(quizController.getQuizbyCourse)
 

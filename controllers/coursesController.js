@@ -9,7 +9,7 @@ const  ObjectID = require('mongodb').ObjectId;
 // @access Private
 const getAllCourse = asyncHandler(async (req, res) => {
     // Get all courses from MongoDB
-    const courses = await Course.find().lean()
+    const courses = await Course.find().populate('instructorid').lean()
 
     // If no courses 
     if (!courses?.length) {
@@ -23,7 +23,7 @@ const getCoursebyInstructor = asyncHandler(async (req, res) => {
     // Get all courses from MongoDB
     const instid= req.header('instid')
     const courses = await Course.find({instructorid:instid}).lean()
-
+    
     // If no courses 
     if (!courses?.length) {
         return res.status(400).json({ message: 'No courses found' })
@@ -59,7 +59,7 @@ const getNewestCourse = asyncHandler(async (req, res) => {
 const getCoursebyLevel = asyncHandler(async (req, res) => {
     // Get all courses from MongoDB
     const level = req.header('level')
-    const courses = await Course.find({level:level}).lean()
+    const courses = await Course.find({level:level}).populate('instructorid').lean()
 
     // If no courses 
     if (!courses?.length) {
@@ -129,12 +129,11 @@ const createNewCourse = asyncHandler(async (req, res) => {
 // @access Private
 const updateCourse = asyncHandler(async (req, res) => {
     const { id, coursename, level, description } = req.body
-    const image = req.file.path
+    // let image = ""
+    // if(req.file){
+    //      image = image + req.file.path
+    // }
     // Confirm data 
-    if (!id ) {
-        return res.status(400).json({ message: 'All fields are required' })
-    }
-
     // Does the course exist to update?
     const course = await Course.findById(id).exec()
 
@@ -142,18 +141,10 @@ const updateCourse = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: 'course not found' })
     }
 
-    // Check for duplicate 
-    const duplicate = await Course.findOne({ coursename }).lean().exec()
-
-    // Allow updates to the original course 
-    if (duplicate && duplicate?._id.toString() !== id) {
-        return res.status(409).json({ message: 'Duplicate coursename' })
-    }
-
     course.coursename = coursename
     course.level = level
     course.description = description
-    course.image= image
+    // course.image= image
 
     const updatedcourse = await course.save()
 

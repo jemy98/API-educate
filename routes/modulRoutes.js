@@ -18,6 +18,12 @@ router.route('/course')
 router.route('/total')
     .get(modulsController.getTotalModul)
 
+router.route('/next')
+    .get(modulsController.getNextModul)
+
+router.route('/prev')
+    .get(modulsController.getPrevModul)
+
 router.route('/allmateri')
     .get(modulsController.getPembelajaran)
 

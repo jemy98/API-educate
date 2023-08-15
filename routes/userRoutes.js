@@ -13,6 +13,7 @@ router.route('/id')
 
 router.route('/score')
     .get(usersController.getAllScore)
+    .patch(usersController.updateScore)
 
 router.route('/score/id')
     .get(usersController.getMyScore)

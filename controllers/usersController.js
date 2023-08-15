@@ -100,6 +100,22 @@ const createNewUser = asyncHandler(async (req, res) => {
 // @desc Update a user
 // @route PATCH /users
 // @access Private
+const updateScore = asyncHandler(async (req, res) => {
+    const { id, score } = req.body
+
+    const user = await User.findById(id).exec()
+
+    if (!user) {
+        return res.status(400).json({ message: 'User not found' })
+    }
+
+    user.score = user.score+score
+    const updatedUser = await user.save()
+
+    res.json({ message: `${updatedUser.username} updated` })
+})
+
+
 const updateUser = asyncHandler(async (req, res) => {
     const { id, email, username, roles, active, password } = req.body
 
@@ -168,6 +184,7 @@ module.exports = {
     getUserbyId,
     getAllScore,
     getMyScore,
+    updateScore,
     createNewUser,
     updateUser,
     deleteUser

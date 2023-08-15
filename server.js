@@ -24,7 +24,6 @@ app.use(function (req, res, next) {
     next();
   });
 
-app.use('/',require('./routes/root'))
 app.use('/users',require('./routes/userRoutes'))
 app.use('/',require('./routes/authRoutes'))
 app.use('/courses',require('./routes/courseRoutes'))
